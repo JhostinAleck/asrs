@@ -13,6 +13,7 @@ from django.contrib.auth import get_user_model
 from django.core.cache import cache
 from django.utils import timezone
 from django.http import JsonResponse
+from .serializers import CustomTokenObtainPairSerializer
 import logging
 import jwt
 from django.conf import settings
