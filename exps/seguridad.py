@@ -28,15 +28,33 @@ import statistics
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # Configurar logging detallado
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('security_experiment.log'),
-        logging.StreamHandler()
-    ]
-)
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+# Formato para los logs
+formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+
+# Handler para archivo (maneja Unicode correctamente)
+file_handler = logging.FileHandler('security_experiment.log', encoding='utf-8')
+file_handler.setFormatter(formatter)
+
+# Handler para consola (con soporte para Unicode en Windows)
+console_handler = logging.StreamHandler()
+console_handler.setFormatter(formatter)
+
+# Configurar la codificación para la consola de Windows
+import sys
+if sys.platform == 'win32':
+    import io
+    import sys
+    if isinstance(sys.stdout, io.TextIOWrapper):
+        sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+    if isinstance(sys.stderr, io.TextIOWrapper):
+        sys.stderr.reconfigure(encoding='utf-8', errors='replace')
+
+# Añadir handlers al logger
+logger.addHandler(file_handler)
+logger.addHandler(console_handler)
 
 class SecurityExperiment:
     def __init__(self, server_ip: str):
@@ -244,6 +262,7 @@ class SecurityExperiment:
                     test_results['successful_validations'] += 1
                 else:
                     test_results['failed_validations'] += 1
+                    logger.error(f"Validación {i+1} falló: {response.text}")
                     logger.warning(f"Validación {i+1} falló: {response.status_code}")
                 
                 if (i + 1) % 10 == 0:

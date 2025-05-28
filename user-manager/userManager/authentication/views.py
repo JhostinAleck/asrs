@@ -56,7 +56,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
             ip = request.META.get('REMOTE_ADDR')
         return ip
 
-@api_view(['POST'])
+@api_view(['GET', 'POST'])
 @permission_classes([AllowAny])
 def validate_token(request):
     """Validate JWT token - called by Nginx"""
