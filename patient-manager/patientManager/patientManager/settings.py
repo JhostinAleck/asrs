@@ -85,7 +85,8 @@ DATABASES = {
         'NAME': config('DB_NAME', default='patients_db'),
         'USER': config('DB_USER', default='postgres'),
         'PASSWORD': config('DB_PASSWORD', default='postgres123'),
-        'HOST': config('DB_HOST', default='10.128.0.5'),
+        # 'HOST': config('DB_HOST', default='10.128.0.5'),
+        'HOST': '10.128.0.5',
         'PORT': config('DB_PORT', default='5432'),
         'OPTIONS': {
             'connect_timeout': 10,
