@@ -82,12 +82,11 @@ WSGI_APPLICATION = 'patientManager.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME', default='patients_db'),
-        'USER': config('DB_USER', default='postgres'),
-        'PASSWORD': config('DB_PASSWORD', default='postgres123'),
-        # 'HOST': config('DB_HOST', default='10.128.0.5'),
+        'NAME': 'patients_db',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres123',
         'HOST': '10.128.0.5',
-        'PORT': config('DB_PORT', default='5432'),
+        'PORT': '5432',
         'OPTIONS': {
             'connect_timeout': 10,
         }
