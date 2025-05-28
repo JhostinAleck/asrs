@@ -227,6 +227,7 @@ class SecurityExperiment:
                 test_results['token'] = jwt_token
                 logger.info("✅ JWT obtenido exitosamente")
             else:
+                logger.warning(f"❌ Error obteniendo JWT: {response.text}")
                 logger.error(f"❌ Error obteniendo JWT: {response.status_code}")
                 return test_results
                 

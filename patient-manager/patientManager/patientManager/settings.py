@@ -98,9 +98,7 @@ CACHES = {
         'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
         'LOCATION': config('MEMCACHED_LOCATION', default='127.0.0.1:11211'),
         'TIMEOUT': 300,  # 5 minutes default timeout
-        'OPTIONS': {
-            'MAX_ENTRIES': 1000,
-        }
+
     }
 }
 
