@@ -1,9 +1,9 @@
 
+import random
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 from faker import Faker
 from patients.models import Patient, MedicalRecord
-import random
 from datetime import datetime, timedelta
 
 class Command(BaseCommand):
@@ -24,7 +24,7 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        fake = Faker(['es_ES', 'en_US'])  # Spanish and English locales
+        fake = Faker('es_CO') # Spanish and English locales
         
         patients_count = options['patients']
         records_count = options['records']
@@ -45,7 +45,7 @@ class Command(BaseCommand):
                 city=fake.city(),
                 state=fake.state() if fake.random.random() > 0.5 else fake.province(),
                 zip_code=fake.postcode()[:10],
-                country=random.choice(['Colombia', 'United States', 'Spain', 'Mexico']),
+                country=random.choice(['Colombia', 'España', 'Estados Unidos', 'México']),
                 blood_type=random.choice(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']),
                 height=round(random.uniform(150.0, 200.0), 2),
                 weight=round(random.uniform(50.0, 120.0), 2),
@@ -70,23 +70,23 @@ class Command(BaseCommand):
         # Create medical records
         medical_records = []
         diagnoses = [
-            "Hypertension", "Diabetes Type 2", "Common Cold", "Migraine",
-            "Anxiety Disorder", "Back Pain", "Allergic Rhinitis", "Asthma",
-            "Gastritis", "Dermatitis", "Insomnia", "Depression", "Arthritis",
-            "Bronchitis", "Sinusitis", "Urinary Tract Infection"
+            "Hipertensión", "Diabetes tipo 2", "Gripa común", "Migraña",
+            "Trastorno de ansiedad", "Dolor de espalda", "Rinitis alérgica", "Asma",
+            "Gastroenteritis", "Dermatitis", "Insomnio", "Depresión", "Artritis",
+            "Bronquitis", "Sinusitis", "Infección urinaria"
         ]
         
         treatments = [
-            "Prescribed medication and rest",
-            "Physical therapy recommended",
-            "Lifestyle changes advised",
-            "Follow-up in 2 weeks",
-            "Referral to specialist",
-            "Blood work ordered",
-            "X-ray examination",
-            "Dietary modifications",
-            "Exercise program initiated",
-            "Stress management techniques"
+            "Medicamento prescrito y descanso",
+            "Terapia física recomendada",
+            "Cambio de estilo de vida sugerido",
+            "Seguimiento en 2 semanas",
+            "Referencia a especialista",
+            "Examen de sangre ordenado",
+            "Examen de rayos X",
+            "Modificaciones dietéticas",
+            "Programa de ejercicio iniciado",
+            "Técnicas de manejo del estrés"
         ]
         
         doctors = [
