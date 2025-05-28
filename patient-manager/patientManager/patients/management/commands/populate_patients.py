@@ -31,6 +31,8 @@ class Command(BaseCommand):
         
         self.stdout.write(f"Creating {patients_count} patients and {records_count} medical records...")
         
+        estados = ['Colombia', 'España', 'Estados Unidos', 'México']
+        ciudades = ['Cundinamarca', 'Boyaca', 'Huila', 'Narino']
         # Create patients
         patients = []
         for i in range(patients_count):
@@ -43,9 +45,9 @@ class Command(BaseCommand):
                 phone=fake.phone_number()[:17],
                 address=fake.address(),
                 city=fake.city(),
-                state=fake.state() if fake.random.random() > 0.5 else fake.province(),
+                state=random.choice(ciudades),
                 zip_code=fake.postcode()[:10],
-                country=random.choice(['Colombia', 'España', 'Estados Unidos', 'México']),
+                country=random.choice(estados),
                 blood_type=random.choice(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']),
                 height=round(random.uniform(150.0, 200.0), 2),
                 weight=round(random.uniform(50.0, 120.0), 2),
