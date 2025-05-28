@@ -125,6 +125,7 @@ DEFENDER_BEHIND_REVERSE_PROXY = True
 
 
 # Logging Configuration
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -138,26 +139,26 @@ LOGGING = {
             'style': '{',
         },
         'json': {
-            'format': '{"level": "{levelname}", "time": "{asctime}", "module": "{module}", "message": "{message}"}',
+            'format': '{{"level":"{levelname}","time":"{asctime}","module":"{module}","message":"{message}"}}',
             'style': '{',
         },
     },
     'handlers': {
         'file': {
-            'level': 'INFO',
             'class': 'logging.FileHandler',
             'filename': '/var/log/user_manager.log',
+            'level': 'INFO',
             'formatter': 'json',
         },
         'console': {
-            'level': 'DEBUG',
             'class': 'logging.StreamHandler',
+            'level': 'DEBUG',
             'formatter': 'verbose',
         },
         'security_file': {
-            'level': 'WARNING',
             'class': 'logging.FileHandler',
             'filename': '/var/log/user_manager_security.log',
+            'level': 'WARNING',
             'formatter': 'json',
         },
     },
@@ -184,6 +185,8 @@ LOGGING = {
         },
     },
 }
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
