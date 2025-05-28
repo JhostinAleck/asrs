@@ -186,6 +186,7 @@ LOGGING = {
     },
 }
 
+AUTH_USER_MODEL = 'authentication.User'
 
 
 # Password validation
