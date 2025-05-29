@@ -13,7 +13,7 @@ Métricas a evaluar:
 - Latencia de validación JWT: < 50ms
 - Latencia de consulta DB: < 200ms
 
-Uso: python3 latency_experiment.py --server-ip <IP_DEL_SERVIDOR>
+Uso: python3 latencia.py --server-ip 35.202.107.19
 """
 
 import requests

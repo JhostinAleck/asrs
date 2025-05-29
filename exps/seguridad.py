@@ -13,7 +13,7 @@ Métricas a evaluar:
 - Tasa de falsos positivos en bloqueo de IPs: < 0.1%
 - Tiempo de validación JWT: < 250ms
 
-Uso: python3 security_experiment.py --server-ip <IP_DEL_SERVIDOR>
+Uso: python3 seguridad.py --server-ip  35.202.107.19
 """
 
 import requests

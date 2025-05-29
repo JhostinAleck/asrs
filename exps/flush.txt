@@ -1,0 +1,20 @@
+cd asrs/user-manager/userManager
+python3 manage.py flush
+
+python3 manage.py shell << EOF
+from django.contrib.auth import get_user_model
+User = get_user_model()
+
+test_users = [
+    ('testuser1', 'test123'),
+    ('testuser2', 'test123'),
+    ('patient_user', 'patient123'),
+]
+
+for username, password in test_users:
+    if not User.objects.filter(username=username).exists():
+        User.objects.create_user(username=username, password=password)
+        print(f"Created user: {username}")
+EOF
+
+python3 manage.py runserver 0.0.0.0:8000
