@@ -1,0 +1,184 @@
+{
+  "experiment": "Latency Validation (ASR-3)",
+  "timestamp": "2025-05-28T19:53:48.873839",
+  "duration_seconds": 100.711343,
+  "server_ip": "35.202.107.19",
+  "asr_compliance": {
+    "end_to_end_p95": {
+      "requirement": "< 500ms",
+      "actual": "659.73ms",
+      "compliant": "False"
+    },
+    "jwt_validation": {
+      "requirement": "< 50ms",
+      "actual": "220.47ms",
+      "compliant": false
+    }
+  },
+  "test_results": {
+    "authentication_latency": {
+      "authentication": {
+        "test_name": "Autenticaci\u00f3n",
+        "count": 20,
+        "min": 367.16294288635254,
+        "max": 405.9333801269531,
+        "mean": 381.95834159851074,
+        "median": 380.2635669708252,
+        "p95": 405.65909147262573,
+        "p99": 405.87852239608765,
+        "std_dev": 10.465085338143425
+      },
+      "jwt_validation": {
+        "test_name": "Validaci\u00f3n JWT",
+        "count": 20,
+        "min": 201.54619216918945,
+        "max": 255.7837963104248,
+        "mean": 220.4694628715515,
+        "median": 215.93046188354492,
+        "p95": 240.5375599861145,
+        "p99": 252.73454904556272,
+        "std_dev": 13.171050932635598
+      }
+    },
+    "patient_list_latency": {
+      "test_name": "Listado de pacientes",
+      "count": 100,
+      "min": 194.8831081390381,
+      "max": 459.0926170349121,
+      "mean": 216.71941995620728,
+      "median": 209.50067043304443,
+      "p95": 235.51121950149536,
+      "p99": 370.7411670684819,
+      "std_dev": 32.927829450361735
+    },
+    "patient_detail_latency": {},
+    "patient_search_latency": {
+      "test_name": "B\u00fasqueda de pacientes",
+      "count": 100,
+      "min": 212.69559860229492,
+      "max": 525.4354476928711,
+      "mean": 241.14534616470337,
+      "median": 229.19785976409912,
+      "p95": 301.58842802047724,
+      "p99": 360.0086188316354,
+      "std_dev": 40.543908524507685
+    },
+    "end_to_end_latency": {
+      "end_to_end": {
+        "test_name": "End-to-End",
+        "count": 50,
+        "min": 569.511890411377,
+        "max": 668.0164337158203,
+        "mean": 602.6642608642578,
+        "median": 598.1936454772949,
+        "p95": 659.7330093383789,
+        "p99": 665.0047993659973,
+        "std_dev": 24.025035402299356
+      },
+      "auth_component": {
+        "test_name": "Componente Auth",
+        "count": 50,
+        "min": 360.5930805206299,
+        "max": 413.0263328552246,
+        "mean": 378.75250816345215,
+        "median": 375.5476474761963,
+        "p95": 400.70143938064575,
+        "p99": 410.0803542137146,
+        "std_dev": 11.818773519763406
+      },
+      "query_component": {
+        "test_name": "Componente Query",
+        "count": 50,
+        "min": 193.73512268066406,
+        "max": 287.60576248168945,
+        "mean": 223.89153957366943,
+        "median": 217.16034412384033,
+        "p95": 270.8618521690368,
+        "p99": 285.2783727645874,
+        "std_dev": 20.352389389218192
+      }
+    },
+    "concurrent_load_test": {
+      "1_users": {
+        "test_name": "1 usuarios concurrentes",
+        "count": 5,
+        "min": 201.93028450012207,
+        "max": 236.23228073120117,
+        "mean": 217.99283027648926,
+        "median": 218.67704391479492,
+        "p95": 232.93895721435547,
+        "p99": 235.57361602783203,
+        "std_dev": 12.40733168334383,
+        "errors": 0,
+        "success_rate": 100.0
+      },
+      "5_users": {
+        "test_name": "5 usuarios concurrentes",
+        "count": 25,
+        "min": 200.7744312286377,
+        "max": 251.01518630981445,
+        "mean": 218.7513542175293,
+        "median": 215.6386375427246,
+        "p95": 235.06093025207517,
+        "p99": 247.43141174316403,
+        "std_dev": 11.364153101361433,
+        "errors": 0,
+        "success_rate": 100.0
+      },
+      "10_users": {
+        "test_name": "10 usuarios concurrentes",
+        "count": 50,
+        "min": 204.47564125061035,
+        "max": 262.8762722015381,
+        "mean": 228.18918704986572,
+        "median": 225.3638505935669,
+        "p95": 260.408353805542,
+        "p99": 262.7154040336609,
+        "std_dev": 15.819049469553187,
+        "errors": 0,
+        "success_rate": 100.0
+      },
+      "20_users": {
+        "test_name": "20 usuarios concurrentes",
+        "count": 100,
+        "min": 222.0020294189453,
+        "max": 638.5972499847412,
+        "mean": 388.15993547439575,
+        "median": 384.0057849884033,
+        "p95": 554.0926456451416,
+        "p99": 616.975555419922,
+        "std_dev": 107.33397745154278,
+        "errors": 0,
+        "success_rate": 100.0
+      }
+    }
+  },
+  "summary": {
+    "total_asrs_evaluated": 2,
+    "compliant_asrs": 0,
+    "compliance_percentage": 0.0,
+    "overall_performance_status": "FAIL"
+  },
+  "load_analysis": {
+    "1_users": {
+      "p95_latency": 232.93895721435547,
+      "success_rate": 100.0,
+      "acceptable_performance": "True"
+    },
+    "5_users": {
+      "p95_latency": 235.06093025207517,
+      "success_rate": 100.0,
+      "acceptable_performance": "True"
+    },
+    "10_users": {
+      "p95_latency": 260.408353805542,
+      "success_rate": 100.0,
+      "acceptable_performance": "True"
+    },
+    "20_users": {
+      "p95_latency": 554.0926456451416,
+      "success_rate": 100.0,
+      "acceptable_performance": "True"
+    }
+  }
+}

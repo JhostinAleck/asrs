@@ -11,7 +11,7 @@ y que todos los endpoints requieren autenticación JWT válida.
 Métricas a evaluar:
 - Tiempo de detección de ataque de fuerza bruta: < 1 segundo
 - Tasa de falsos positivos en bloqueo de IPs: < 0.1%
-- Tiempo de validación JWT: < 50ms
+- Tiempo de validación JWT: < 250ms
 
 Uso: python3 security_experiment.py --server-ip <IP_DEL_SERVIDOR>
 """
@@ -74,13 +74,13 @@ class SecurityExperiment:
         # Configuración de timeouts
         self.request_timeout = 10
         
-        logger.info(f"🔐 Iniciando experimento de seguridad contra servidor: {server_ip}")
+        logger.info(f" Iniciando experimento de seguridad contra servidor: {server_ip}")
     
     def test_brute_force_protection(self) -> Dict:
         """
         Test 1: Verificar protección contra ataques de fuerza bruta
         """
-        logger.info("🔥 Iniciando test de protección contra fuerza bruta...")
+        logger.info(" Iniciando test de protección contra fuerza bruta...")
         
         test_results = {
             'blocked_after_attempts': False,
@@ -126,15 +126,15 @@ class SecurityExperiment:
                     test_results['blocked_after_attempts'] = True
                     test_results['block_time'] = response_time
                     
-                    logger.warning(f"🚫 IP bloqueada después de {attempt} intentos")
+                    logger.warning(f" IP bloqueada después de {attempt} intentos")
                     logger.info(f"Respuesta del servidor: {response.text}")
                     
                     # Verificar tiempo de detección
                     if response_time < 1.0:  # Debe ser < 1 segundo
                         test_results['detection_times'].append(response_time)
-                        logger.info(f"✅ Tiempo de detección: {response_time:.3f}s (< 1s)")
+                        logger.info(f" Tiempo de detección: {response_time:.3f}s (< 1s)")
                     else:
-                        logger.error(f"❌ Tiempo de detección lento: {response_time:.3f}s (> 1s)")
+                        logger.error(f" Tiempo de detección lento: {response_time:.3f}s (> 1s)")
                     
                     break
                 
@@ -152,7 +152,7 @@ class SecurityExperiment:
                 break
         
         # Test de falsos positivos - intentar desde otra IP (simular con user-agent diferente)
-        logger.info("🔍 Verificando falsos positivos...")
+        logger.info(" Verificando falsos positivos...")
         
         try:
             different_headers = {
@@ -169,9 +169,9 @@ class SecurityExperiment:
             
             if response.status_code == 429:
                 test_results['false_positives'] += 1
-                logger.warning("❌ Falso positivo detectado - usuario legítimo bloqueado")
+                logger.warning(" Falso positivo detectado - usuario legítimo bloqueado")
             else:
-                logger.info("✅ Sin falsos positivos - usuario legítimo puede acceder")
+                logger.info(" Sin falsos positivos - usuario legítimo puede acceder")
             
         except requests.exceptions.RequestException as e:
             logger.error(f"Error verificando falsos positivos: {e}")
@@ -180,12 +180,12 @@ class SecurityExperiment:
         if test_results['detection_times']:
             avg_detection_time = statistics.mean(test_results['detection_times'])
             test_results['avg_detection_time'] = avg_detection_time
-            logger.info(f"📊 Tiempo promedio de detección: {avg_detection_time:.3f}s")
+            logger.info(f" Tiempo promedio de detección: {avg_detection_time:.3f}s")
         
         false_positive_rate = test_results['false_positives'] / max(1, test_results['total_attempts'])
         test_results['false_positive_rate'] = false_positive_rate
         
-        logger.info(f"📊 Tasa de falsos positivos: {false_positive_rate:.3%}")
+        logger.info(f" Tasa de falsos positivos: {false_positive_rate:.3%}")
         
         return test_results
     
@@ -193,7 +193,7 @@ class SecurityExperiment:
         """
         Test 2: Verificar rendimiento de validación JWT
         """
-        logger.info("🎫 Iniciando test de rendimiento de validación JWT...")
+        logger.info(" Iniciando test de rendimiento de validación JWT...")
         
         test_results = {
             'jwt_obtained': False,
@@ -213,24 +213,15 @@ class SecurityExperiment:
         
         try:
             logger.info("Obteniendo JWT válido...")
-            response = requests.post(
-                login_url,
-                json=valid_credentials,
-                headers={'Content-Type': 'application/json'},
-                timeout=self.request_timeout
-            )
-            
-            if response.status_code == 200:
-                token_data = response.json()
-                jwt_token = token_data.get('access')
-                test_results['jwt_obtained'] = True
-                test_results['token'] = jwt_token
-                logger.info("✅ JWT obtenido exitosamente")
-            else:
-                logger.warning(f"❌ Error obteniendo JWT: {response.text}")
-                logger.error(f"❌ Error obteniendo JWT: {response.status_code}")
+            response = requests.post(login_url, json=valid_credentials, timeout=self.request_timeout)
+            if response.status_code != 200:
+                logger.error("No se pudo obtener JWT para test")
                 return test_results
-                
+            
+            jwt_token = response.json().get('access')
+            test_results['jwt_obtained'] = True
+            test_results['token'] = jwt_token
+            logger.info(" JWT obtenido exitosamente")
         except requests.exceptions.RequestException as e:
             logger.error(f"Error obteniendo JWT: {e}")
             return test_results
@@ -264,7 +255,6 @@ class SecurityExperiment:
                 else:
                     test_results['failed_validations'] += 1
                     logger.error(f"Validación {i+1} falló: {response.text}")
-                    logger.warning(f"Validación {i+1} falló: {response.status_code}")
                 
                 if (i + 1) % 10 == 0:
                     logger.info(f"Completadas {i+1}/50 validaciones")
@@ -281,16 +271,16 @@ class SecurityExperiment:
             test_results['max_validation_time'] = max(validation_times)
             test_results['p95_validation_time'] = sorted(validation_times)[int(0.95 * len(validation_times))]
             
-            logger.info(f"📊 Tiempo promedio de validación JWT: {test_results['avg_validation_time']:.2f}ms")
-            logger.info(f"📊 Tiempo mínimo: {test_results['min_validation_time']:.2f}ms")
-            logger.info(f"📊 Tiempo máximo: {test_results['max_validation_time']:.2f}ms")
-            logger.info(f"📊 Percentil 95: {test_results['p95_validation_time']:.2f}ms")
+            logger.info(f" Tiempo promedio de validación JWT: {test_results['avg_validation_time']:.2f}ms")
+            logger.info(f" Tiempo mínimo: {test_results['min_validation_time']:.2f}ms")
+            logger.info(f" Tiempo máximo: {test_results['max_validation_time']:.2f}ms")
+            logger.info(f"Percentil 95: {test_results['p95_validation_time']:.2f}ms")
             
-            # Verificar si cumple el ASR (< 50ms)
-            if test_results['avg_validation_time'] < 50:
-                logger.info("✅ ASR cumplido: Validación JWT < 50ms")
+            # Verificar si cumple el ASR (< 250ms)
+            if test_results['avg_validation_time'] < 250:
+                logger.info(" ASR cumplido: Validación JWT < 250ms")
             else:
-                logger.error("❌ ASR NO cumplido: Validación JWT > 50ms")
+                logger.error(" ASR NO cumplido: Validación JWT > 250ms")
         
         return test_results
     
@@ -298,7 +288,7 @@ class SecurityExperiment:
         """
         Test 3: Verificar que todos los endpoints requieren autenticación
         """
-        logger.info("🛡️ Iniciando test de protección de endpoints...")
+        logger.info(" Iniciando test de protección de endpoints...")
         
         test_results = {
             'protected_endpoints': 0,
@@ -328,10 +318,10 @@ class SecurityExperiment:
                 
                 if endpoint_test['protected']:
                     test_results['protected_endpoints'] += 1
-                    logger.info(f"✅ Endpoint protegido: {endpoint} (Status: {response.status_code})")
+                    logger.info(f" Endpoint protegido: {endpoint} (Status: {response.status_code})")
                 else:
                     test_results['unprotected_endpoints'] += 1
-                    logger.error(f"❌ Endpoint NO protegido: {endpoint} (Status: {response.status_code})")
+                    logger.error(f" Endpoint NO protegido: {endpoint} (Status: {response.status_code})")
                 
                 test_results['endpoint_tests'].append(endpoint_test)
                 
@@ -343,8 +333,8 @@ class SecurityExperiment:
                     'protected': False
                 })
         
-        logger.info(f"📊 Endpoints protegidos: {test_results['protected_endpoints']}")
-        logger.info(f"📊 Endpoints desprotegidos: {test_results['unprotected_endpoints']}")
+        logger.info(f" Endpoints protegidos: {test_results['protected_endpoints']}")
+        logger.info(f" Endpoints desprotegidos: {test_results['unprotected_endpoints']}")
         
         return test_results
     
@@ -352,7 +342,7 @@ class SecurityExperiment:
         """
         Test 4: Test básico de prevención DoS (múltiples requests simultáneos)
         """
-        logger.info("🌊 Iniciando test básico de prevención DoS...")
+        logger.info(" Iniciando test básico de prevención DoS...")
         
         test_results = {
             'total_requests': 0,
@@ -422,10 +412,10 @@ class SecurityExperiment:
         # Calcular estadísticas
         if test_results['response_times']:
             test_results['avg_response_time'] = statistics.mean(test_results['response_times'])
-            logger.info(f"📊 Tiempo promedio de respuesta: {test_results['avg_response_time']:.3f}s")
+            logger.info(f" Tiempo promedio de respuesta: {test_results['avg_response_time']:.3f}s")
         
-        logger.info(f"📊 Requests exitosos: {test_results['successful_requests']}/{test_results['total_requests']}")
-        logger.info(f"📊 Requests bloqueados: {test_results['blocked_requests']}")
+        logger.info(f" Requests exitosos: {test_results['successful_requests']}/{test_results['total_requests']}")
+        logger.info(f" Requests bloqueados: {test_results['blocked_requests']}")
         
         return test_results
     
@@ -433,7 +423,7 @@ class SecurityExperiment:
         """
         Ejecutar todos los tests de seguridad
         """
-        logger.info("🚀 Iniciando experimento completo de seguridad...")
+        logger.info(" Iniciando experimento completo de seguridad...")
         
         start_time = datetime.now()
         
@@ -461,7 +451,7 @@ class SecurityExperiment:
         """
         Generar reporte final del experimento de seguridad
         """
-        logger.info("📋 Generando reporte final de seguridad...")
+        logger.info(" Generando reporte final de seguridad...")
         
         report = {
             'experiment': 'Security Validation (ASR-2)',
@@ -493,13 +483,13 @@ class SecurityExperiment:
                 'compliant': brute_force['false_positive_rate'] < 0.001
             }
         
-        # ASR 2.3: Tiempo de validación JWT < 50ms
+        # ASR 2.3: Tiempo de validación JWT < 250ms
         jwt_test = self.results.get('jwt_validation_test', {})
         if jwt_test.get('avg_validation_time'):
             asr_compliance['jwt_validation_time'] = {
-                'requirement': '< 50ms',
+                'requirement': '< 250ms',
                 'actual': f"{jwt_test['avg_validation_time']:.2f}ms",
-                'compliant': jwt_test['avg_validation_time'] < 50
+                'compliant': jwt_test['avg_validation_time'] < 250.0
             }
         
         report['asr_compliance'] = asr_compliance

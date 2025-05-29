@@ -3,7 +3,5 @@ COMMAND=py seguridad.py --server-ip 35.202.107.19
 FULL_COMMAND=& C:/Python312/python.exe c:/Users/Jadevia/OneDrive/Documentos/GitHub/asrs/exps/seguridad.py --server-ip 35.202.107.19
 
 
-
-curl http://35.202.107.19/auth/health/    # User Manager
-curl http://35.202.107.19/patients/health/ # Patient Manager
-curl http://35.202.107.19/health      
+FULL_COMMAND2=& C:/Python312/python.exe c:/Users/Jadevia/OneDrive/Documentos/GitHub/asrs/exps/latencia.py --server-ip 35.202.107.19
+PROJECT_ID="auth0-456512"

@@ -1,0 +1,145 @@
+{
+  "experiment": "Security Validation (ASR-2)",
+  "timestamp": "2025-05-28T20:20:06.218769",
+  "duration_seconds": 25.332902,
+  "server_ip": "35.202.107.19",
+  "asr_compliance": {
+    "false_positive_rate": {
+      "requirement": "< 0.1%",
+      "actual": "0.000%",
+      "compliant": true
+    },
+    "jwt_validation_time": {
+      "requirement": "< 250ms",
+      "actual": "217.82ms",
+      "compliant": true
+    }
+  },
+  "test_results": {
+    "brute_force_test": {
+      "blocked_after_attempts": false,
+      "block_time": null,
+      "detection_times": [],
+      "false_positives": 0,
+      "total_attempts": 6,
+      "false_positive_rate": 0.0
+    },
+    "jwt_validation_test": {
+      "jwt_obtained": true,
+      "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ4NDg1MTg4LCJpYXQiOjE3NDg0ODE1ODgsImp0aSI6IjkzMGU4NGQ4MWJmZTRiNTQ5ZjkxYjliNmNmN2MxMWMyIiwidXNlcl9pZCI6MX0.mSCWuAEv5blcxOA9Aem5yipmcwQ74IVLTNW9nB7vBaU",
+      "validation_times": [
+        240.4026985168457,
+        212.38350868225098,
+        223.1435775756836,
+        214.32828903198242,
+        227.68092155456543,
+        215.40188789367676,
+        229.68530654907227,
+        205.6252956390381,
+        211.11202239990234,
+        205.6128978729248,
+        218.68085861206055,
+        209.0890407562256,
+        222.70846366882324,
+        232.35774040222168,
+        219.88630294799805,
+        213.37485313415527,
+        203.60326766967773,
+        212.94713020324707,
+        208.6789608001709,
+        225.2357006072998,
+        208.6784839630127,
+        223.46091270446777,
+        216.32695198059082,
+        200.61349868774414,
+        214.03789520263672,
+        232.36489295959473,
+        213.7892246246338,
+        208.5130214691162,
+        209.06567573547363,
+        218.37139129638672,
+        221.62556648254395,
+        213.0563259124756,
+        218.91522407531738,
+        224.24840927124023,
+        219.07973289489746,
+        281.4509868621826,
+        224.93624687194824,
+        217.56935119628906,
+        197.64471054077148,
+        214.14971351623535,
+        213.41562271118164,
+        211.17830276489258,
+        251.59406661987305,
+        218.2002067565918,
+        220.06797790527344,
+        209.77210998535156,
+        205.68013191223145,
+        208.1451416015625,
+        216.2468433380127,
+        206.62808418273926
+      ],
+      "avg_validation_time": 217.81530857086182,
+      "successful_validations": 50,
+      "failed_validations": 0,
+      "min_validation_time": 197.64471054077148,
+      "max_validation_time": 281.4509868621826,
+      "p95_validation_time": 240.4026985168457
+    },
+    "endpoint_protection_test": {
+      "protected_endpoints": 3,
+      "unprotected_endpoints": 0,
+      "endpoint_tests": [
+        {
+          "endpoint": "http://35.202.107.19/patients/patients/",
+          "status_code": 401,
+          "protected": true
+        },
+        {
+          "endpoint": "http://35.202.107.19/patients/patients/search/",
+          "status_code": 401,
+          "protected": true
+        },
+        {
+          "endpoint": "http://35.202.107.19/patients/stats/",
+          "status_code": 401,
+          "protected": true
+        }
+      ]
+    },
+    "dos_prevention_test": {
+      "total_requests": 20,
+      "successful_requests": 20,
+      "blocked_requests": 0,
+      "avg_response_time": 0.5208786845207214,
+      "response_times": [
+        0.2167813777923584,
+        0.24633359909057617,
+        0.285783052444458,
+        0.28778839111328125,
+        0.3058907985687256,
+        0.31052708625793457,
+        0.33928656578063965,
+        0.34203529357910156,
+        0.4782402515411377,
+        0.6273438930511475,
+        0.4655797481536865,
+        0.519688606262207,
+        0.6307311058044434,
+        0.6850972175598145,
+        0.7287628650665283,
+        0.8489649295806885,
+        0.8293530941009521,
+        0.8331835269927979,
+        0.7237827777862549,
+        0.7124195098876953
+      ]
+    }
+  },
+  "summary": {
+    "total_asrs_evaluated": 2,
+    "compliant_asrs": 2,
+    "compliance_percentage": 100.0,
+    "overall_security_status": "PASS"
+  }
+}
